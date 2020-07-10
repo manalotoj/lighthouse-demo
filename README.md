@@ -1,5 +1,5 @@
 # Introduction 
-These templates are modified versions of the [Azure Lighthouse samples]([Azure Lighthouse samples](https://docs.microsoft.com/en-us/azure/lighthouse/samples/)). Refer to [Onboard a customer to Azure Lighthouse](https://docs.microsoft.com/en-us/azure/lighthouse/how-to/onboard-customer) for further additional information.
+These templates are modified versions of the [Azure Lighthouse samples](https://docs.microsoft.com/en-us/azure/lighthouse/samples/). Refer to [Onboard a customer to Azure Lighthouse](https://docs.microsoft.com/en-us/azure/lighthouse/how-to/onboard-customer) for further additional information.
 
 # Deploying Templates
 ## Prerequisites
