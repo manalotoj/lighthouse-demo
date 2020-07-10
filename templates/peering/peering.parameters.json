@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "remoteResourceGroupName": {
+            "value": "rg-customer"
+        },
+        "remoteVnetName": {
+            "value": "vnet-customer"
+        },
+        "remoteSubscriptionId": {
+            "value": "<customer-subscription-Id>"
+        },
+        "localResourceGroupName": {
+            "value": "rg-provider"
+        },
+		"localVnetName": {
+            "value": "vnet-provider"
+        },
+		"localSubscriptionId": {
+            "value": "<provider-subscription-Id>"
+        }	
+    }
+}

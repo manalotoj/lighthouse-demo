@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "mspOfferName": {
+            "value": "myMspOffer"
+        },
+        "rgName": {
+            "value": "rg-customer"
+        },
+        "mspOfferDescription": {
+            "value": "myMspOffer description"
+        },
+        "managedByTenantId": {
+            "value": "<service-provider-tenant-id>"
+        },
+        "authorizations": {
+            "value": [
+                {
+                    "principalId": "<replace-with-group-or-user-id>",
+                    "roleDefinitionId": "4d97b98b-1d4f-4787-a291-c67834d212e7",
+                    "principalIdDisplayName": "Network Contributor"
+                },
+                {
+                    "principalId": "<replace-with-group-or-user-id>",
+                    "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+                    "principalIdDisplayName": "Reader"
+                },
+                {
+                    "principalId": "<replace-with-group-or-user-id>",
+                    "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+                    "principalIdDisplayName": "Conributor"
+                }
+            ]
+        }
+    }
+}

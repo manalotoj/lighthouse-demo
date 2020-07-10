@@ -1,0 +1,96 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "remoteResourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "Remote/customer resource group name"
+            },
+            "defaultValue": "rg-customer"
+        },
+        "remoteVnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Remote/customer VNET name"
+            },
+            "defaultValue": "vnet-customer"
+        },
+        "remoteSubscriptionId": {
+            "type": "string",
+            "metadata": {
+                "description": "Remote/customer subscription Id"
+            }
+        },
+        "localResourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "Local/provider resource group name"
+            },
+            "defaultValue": "rg-provider"
+        },
+        "localVnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Local/provider VNET name"
+            },
+            "defaultValue": "vnet-provider"
+        },
+        "localSubscriptionId": {
+          "type":"string",
+          "metadata": {
+            "description": "Local/provider subscription Id"
+          }
+        }
+    },
+    "variables": {
+    },
+    "resources": [    
+        {
+            "apiVersion": "2016-06-01",
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "name": "[concat(parameters('localVnetName'), '/peer-providerToCustomer')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "allowVirtualNetworkAccess": true,
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "useRemoteGateways": false,
+                "remoteVirtualNetwork": {
+                    "id": "[concat('/subscriptions/', parameters('remoteSubscriptionId'), '/resourceGroups/', parameters('remoteResourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('remoteVnetName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "name": "crossRg",
+            "resourceGroup": "[parameters('remoteResourceGroupName')]",
+            "subscriptionId": "[parameters('remoteSubscriptionId')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                            "apiVersion": "2019-06-01",
+                            "name": "[concat(parameters('remoteVnetName'), '/peer-customerToProvider')]",
+                            "properties": {
+                                "allowVirtualNetworkAccess": true,
+                                "allowForwardedTraffic": true,
+                                "allowGatewayTransit": false,
+                                "useRemoteGateways": false,
+                                "remoteVirtualNetwork": {
+                                    "id": "[concat('/subscriptions/', parameters('localSubscriptionId'), '/resourceGroups/', parameters('localResourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('localVnetName'))]"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
